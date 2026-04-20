@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Loan AI Advisor</title>
+</head>
+
+<body>
+
+<h2>Loan Details</h2>
+
+Loan Amount<br> <input id="loanAmount"><br><br>
+
+Interest Rate (%)<br> <input id="rate"><br><br>
+
+Monthly EMI<br> <input id="emi"><br><br>
+
+Months Paid<br> <input id="monthsPaid"><br><br>
+
+<button onclick="saveLoan()">Save Loan Data</button>
+
+<hr>
+
+<h2>Chat with Loan Advisor</h2>
+
+<div id="chatBox" style="border:1px solid black;height:250px;overflow:auto;padding:10px"></div>
+
+<br>
+
+<input id="userMsg" placeholder="Ask your doubt..." style="width:70%">
+<button onclick="sendMsg()">Send</button>
+
+<script>
+
+const API_KEY = "BOhQWdeZNiPLgGdSu7Y1VvVeiqyGHfNR";
+
+let loanData = "";
+
+function saveLoan(){
+
+let loan = document.getElementById("loanAmount").value;
+let rate = document.getElementById("rate").value;
+let emi = document.getElementById("emi").value;
+let paid = document.getElementById("monthsPaid").value;
+
+loanData =
+"Loan Amount: " + loan +
+", Interest Rate: " + rate +
+"%, EMI: " + emi +
+", Months Paid: " + paid;
+
+alert("Loan data saved. Now ask questions below.");
+}
+
+function sendMsg(){
+
+let userText = document.getElementById("userMsg").value;
+
+if(!loanData){
+alert("Please save loan data first");
+return;
+}
+
+// Show user message
+document.getElementById("chatBox").innerHTML +=
+"<b>You:</b> " + userText + "<br>";
+
+document.getElementById("chatBox").innerHTML +=
+"<b>Advisor:</b> Finding your answer...<br><br>";
+
+// Create smart prompt
+let prompt =
+"You are a smart loan advisor. " +
+"Use this loan data: " + loanData + ". " +
+"Answer in very simple language. " +
+"Give practical advice like what is better financially. " +
+"If user talks about extra payment, compare options clearly. " +
+"Question: " + userText;
+
+// API call
+fetch("https://api.mistral.ai/v1/chat/completions",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer " + API_KEY
+},
+body:JSON.stringify({
+model:"mistral-small-2603",
+messages:[
+{
+role:"system",
+content:"You are a smart loan advisor. Explain in simple language and give practical financial guidance."
+},
+{
+role:"user",
+content:prompt
+}
+]
+})
+})
+.then(function(response){
+if(!response.ok){
+return response.json().then(function(err){
+throw new Error("HTTP " + response.status + ": " + (err.error && err.error.message ? err.error.message : "Request failed"));
+});
+}
+return response.json();
+})
+.then(function(data){
+
+if(
+!data.choices ||
+!data.choices[0] ||
+!data.choices[0].message ||
+!data.choices[0].message.content
+){
+throw new Error("Mistral response did not contain answer text.");
+}
+
+let reply = data.choices[0].message.content;
+
+let chatBox = document.getElementById("chatBox");
+chatBox.innerHTML = chatBox.innerHTML.replace(
+"<b>Advisor:</b> Finding your answer...<br><br>",
+"<b>Advisor:</b> " + reply + "<br><br>"
+);
+
+
+})
+.catch(function(error){
+let chatBox = document.getElementById("chatBox");
+chatBox.innerHTML = chatBox.innerHTML.replace(
+"<b>Advisor:</b> Finding your answer...<br><br>",
+"<b>Advisor:</b> Sorry, answer nahi aa paaya.<br><small>Actual error: " + error.message + "</small><br><br>"
+);
+console.log(error);
+});
+
+}
+
+</script>
+
+</body>
+</html>

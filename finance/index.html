@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArthSaathi - Financial Chatbot Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">ArthSaathi</p>
+        <h1>Simple money guidance for real loan decisions</h1>
+        <p class="tagline">Samjho apna loan, bachao apna interest, aur lo better money decisions.</p>
+        <p class="hero-copy">
+          Loan details bharo, sliders adjust karo, aur Hinglish mein poochho:
+          "Agar main extra payment karu toh kya hoga?"
+        </p>
+      </div>
+      <div class="hero-card">
+        <div class="advisor-visual" aria-hidden="true">
+          <div class="advisor-orb"></div>
+          <div class="advisor-person">
+            <div class="advisor-head"></div>
+            <div class="advisor-body">
+              <div class="advisor-shirt"></div>
+              <div class="advisor-coat"></div>
+            </div>
+          </div>
+          <div class="advisor-card advisor-card-one"></div>
+          <div class="advisor-card advisor-card-two"></div>
+        </div>
+        <span class="hero-label">Live EMI</span>
+        <strong id="emiValue">Rs 0 / month</strong>
+        <p id="emiSubtext">Loan inputs bharte hi yahan estimate dikh jayega.</p>
+      </div>
+    </header>
+
+    <main class="app-grid">
+      <section class="panel page-flow">
+        <div class="panel-head">
+          <h2>Loan Details</h2>
+          <p>Details yahin bharo. Neeche ArthSaathi chat assistant ready rahega.</p>
+        </div>
+
+        <div class="loan-page-grid">
+          <div class="field-group">
+            <label for="loanAmount">Loan Amount</label>
+            <div class="currency-input">
+              <span>Rs</span>
+              <input id="loanAmount" type="number" min="10000" step="10000" value="2500000">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="label-row">
+              <label for="interestRate">Interest Rate</label>
+            <span id="interestRateDisplay">8.5%</span>
+            </div>
+            <input id="interestRate" type="range" min="5" max="24" step="0.1" value="8.5">
+          </div>
+
+          <div class="field-group">
+            <div class="label-row">
+              <label for="tenureYears">Tenure</label>
+              <span id="tenureDisplay">20 years</span>
+            </div>
+            <input id="tenureYears" type="range" min="1" max="30" step="1" value="20">
+          </div>
+
+          <div class="field-group">
+            <label for="bankName">Bank / Company</label>
+            <select id="bankName">
+              <option>HDFC</option>
+              <option>SBI</option>
+              <option>ICICI</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="loanType">Loan Type</label>
+            <select id="loanType">
+              <option>Home Loan</option>
+              <option>Personal Loan</option>
+              <option>Car Loan</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="interestType">Interest Type</label>
+            <select id="interestType">
+              <option>Fixed</option>
+              <option>Floating</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="emiType">EMI Type</label>
+            <select id="emiType">
+              <option>Reducing Balance</option>
+              <option>Flat Rate</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="currentEmi">Your Current EMI (Optional)</label>
+            <div class="currency-input">
+              <span>Rs</span>
+              <input
+                id="currentEmi"
+                type="number"
+                min="0"
+                step="500"
+                placeholder="Agar EMI already pata hai to yahan bharo"
+              >
+            </div>
+          </div>
+
+          <div class="field-group loan-age-field">
+            <div class="label-row">
+              <label for="loanAgeMonths">Loan Age (Months Paid)</label>
+              <span id="loanAgeDisplay">24 months</span>
+            </div>
+            <input id="loanAgeMonths" type="range" min="0" max="240" step="1" value="24">
+          </div>
+        </div>
+
+        <div class="summary-highlight page-summary">
+          <span class="mini-label">Total You Will Pay</span>
+          <strong id="totalPayValue">Rs 0</strong>
+          <p id="totalPaySubtext">Principal + total interest mila ke.</p>
+        </div>
+
+        <div class="insight-grid page-insights">
+          <div class="mini-card">
+            <span class="mini-label">Current Stage</span>
+            <strong id="stageValue">Early stage</strong>
+            <p id="stageSubtext">EMI ka zyada hissa interest mein ja raha hai.</p>
+          </div>
+          <div class="mini-card">
+            <span class="mini-label">Paid Till Now</span>
+            <strong id="amountPaidValue">Rs 0</strong>
+            <p id="amountPaidSubtext">Ab tak total kitna paisa gaya.</p>
+          </div>
+          <div class="mini-card">
+            <span class="mini-label">Interest Paid</span>
+            <strong id="interestPaidValue">Rs 0</strong>
+            <p id="interestPaidSubtext">Ab tak interest mein kitna gaya.</p>
+          </div>
+          <div class="mini-card">
+            <span class="mini-label">Principal Paid</span>
+            <strong id="principalPaidValue">Rs 0</strong>
+            <p id="principalPaidSubtext">Ab tak asli loan amount mein se kitna gaya.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <button id="chatToggle" class="chat-toggle" type="button" aria-expanded="false" aria-controls="chatPanel">
+    <span class="chat-toggle-icon">?</span>
+    <span class="chat-toggle-text">Ask ArthSaathi</span>
+  </button>
+
+  <section class="panel chat-panel chat-panel-hidden" id="chatPanel">
+    <div class="panel-head">
+      <h2>Ask ArthSaathi</h2>
+      <p>Loan ke baare mein normal language mein poochho. Main neeche se help karunga.</p>
+    </div>
+
+    <div id="chatWindow" class="chat-window" aria-live="polite"></div>
+
+    <div class="quick-actions">
+      <button class="quick-btn" data-question="Meri EMI kitni banegi aur abhi mera loan stage kya hai?">EMI + stage</button>
+      <button class="quick-btn" data-question="Agar main Rs 200000 extra pay karu toh kya hoga?">Rs 2 lakh prepay</button>
+      <button class="quick-btn" data-question="Mere EMI mein interest aur principal abhi kaise divide ho raha hai?">Interest split</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input
+        id="chatInput"
+        type="text"
+        placeholder="Jaise: Agar main 1 lakh prepay karu toh tenure aur interest par kya asar hoga?"
+      >
+      <button id="sendButton" type="button">Send</button>
+    </div>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="ai.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
