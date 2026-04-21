@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subamount Analyzer</title>
+  <link rel="stylesheet" href="finance.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-text">
+          <span class="brand-name" data-i18n="subamountAnalyzer">Subamount Analyzer</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <select id="langToggle" class="lang-selector">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="hinglish">Hinglish</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" style="grid-column: 1 / -1; padding: 20px 0;">
+      <div class="hero-left" style="width: 100%;">
+        <h1 class="hero-title" data-i18n="understandYourLoan">Understand Your Loan & Save Money</h1>
+      </div>
+    </section>
+
+    <!-- CONTENT GRID -->
+    <div class="main-content" style="grid-column: 1 / -1;">
+      
+      <!-- LEFT: INPUT FORM -->
+      <aside class="form-section">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title" data-i18n="loanDetails">Loan Details</h2>
+          </div>
+
+          <div class="field-group">
+            <label class="lbl">
+              <span><span data-i18n="loanAmountLeft">Loan Amount Left</span> <span class="tooltip" title="Total amount borrowed or left to pay" data-i18n-title="loanAmountTooltip">ℹ️</span></span>
+              <span class="lbl-val" id="dLoan">₹20,00,000</span>
+            </label>
+            <div class="input-row">
+              <span class="prefix">₹</span>
+              <input type="number" id="iLoan" value="2000000" min="10000" max="100000000" />
+            </div>
+            <input type="range" class="slider" id="rLoan" min="100000" max="10000000" step="50000" value="2000000" />
+            <div class="slider-ends"><span>₹1 Lakh</span><span>₹1 Crore</span></div>
+          </div>
+
+          <div class="field-group">
+            <label class="lbl">
+              <span><span data-i18n="interestRate">Interest Rate</span> <span class="tooltip" title="Annual interest rate charged by bank" data-i18n-title="interestTooltip">ℹ️</span></span>
+              <span class="lbl-val" id="dRate">8.5%</span>
+            </label>
+            <div class="input-row">
+              <input type="number" id="iRate" value="8.5" min="1" max="30" step="0.1" />
+              <span class="suffix">% p.a.</span>
+            </div>
+            <input type="range" class="slider" id="rRate" min="1" max="30" step="0.1" value="8.5" />
+            <div class="slider-ends"><span>1%</span><span>30%</span></div>
+          </div>
+
+          <div class="field-group">
+            <label class="lbl">
+              <span><span data-i18n="loanTime">Loan Time</span> <span class="tooltip" title="Total number of years to repay" data-i18n-title="timeTooltip">ℹ️</span></span>
+              <span class="lbl-val" id="dTenure">20 Years</span>
+            </label>
+            <div class="input-row">
+              <input type="number" id="iTenure" value="20" min="1" max="30" />
+              <span class="suffix" data-i18n="years">years</span>
+            </div>
+            <input type="range" class="slider" id="rTenure" min="1" max="30" step="1" value="20" />
+            <div class="slider-ends"><span>1 yr</span><span>30 yrs</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title" data-i18n="extraPayment">Extra Payment (Optional)</h2>
+          </div>
+
+          <div class="toggle-tabs">
+            <label class="tab active" id="tabMonthly">
+              <input type="radio" name="xt" value="monthly" checked /> <span data-i18n="monthly">Monthly</span>
+            </label>
+            <label class="tab" id="tabLump">
+              <input type="radio" name="xt" value="lump" /> <span data-i18n="lumpSum">Lump Sum (Yearly)</span>
+            </label>
+          </div>
+
+          <div class="field-group">
+            <label class="lbl" id="extraLbl">
+              <span><span data-i18n="monthlyExtra">Monthly Extra</span> <span class="tooltip" title="Additional payment you can make" data-i18n-title="extraTooltip">ℹ️</span></span>
+              <span class="lbl-val" id="dExtra">₹0</span>
+            </label>
+            <div class="input-row">
+              <span class="prefix">₹</span>
+              <input type="number" id="iExtra" value="0" min="0" />
+            </div>
+            <input type="range" class="slider green" id="rExtra" min="0" max="100000" step="500" value="0" />
+            <div class="slider-ends"><span>₹0</span><span>₹1 Lakh</span></div>
+          </div>
+
+          <div class="mode-heading" data-i18n="optGoal">Optimization Goal</div>
+          <div class="mode-list">
+            <label class="mode-item active" id="mTenure">
+              <input type="radio" name="mode" value="tenure" checked />
+              <span class="mode-ico">⏱</span>
+              <div class="mode-body">
+                <strong data-i18n="reduceTime">Reduce Loan Time</strong>
+                <span data-i18n="finishEarlier">Finish loan earlier</span>
+              </div>
+            </label>
+            <label class="mode-item" id="mEMI">
+              <input type="radio" name="mode" value="emi" />
+              <span class="mode-ico">📉</span>
+              <div class="mode-body">
+                <strong data-i18n="reduceEmi">Reduce EMI</strong>
+                <span data-i18n="lowerMonthly">Lower monthly payment</span>
+              </div>
+            </label>
+          </div>
+
+          <button class="btn-analyze" id="btnAnalyze" data-i18n="analyzeBtn">Analyze My Loan →</button>
+        </div>
+      </aside>
+
+      <!-- RIGHT: RESULTS & INSIGHTS -->
+      <aside class="results-section">
+        
+        <div class="emi-hero-card" style="max-width: 100%; margin-bottom: 16px;">
+          <div class="emi-label" data-i18n="yourEmi">Your Monthly EMI</div>
+          <div class="emi-amount" id="emiNum">₹—</div>
+          <div class="emi-note" id="emiTip">Enter details and click Analyze</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title" data-i18n="loanSummary">Loan Summary</h2>
+          </div>
+          <div class="metric-list">
+            <div class="metric-item">
+              <span class="met-icon">💰</span>
+              <div class="met-body">
+                <div class="met-lbl" data-i18n="totalPayable">Total Payable</div>
+                <div class="met-val" id="mTotal">—</div>
+              </div>
+            </div>
+            <div class="metric-item red-item">
+              <span class="met-icon">🔥</span>
+              <div class="met-body">
+                <div class="met-lbl" data-i18n="interestYouPay">Interest You Pay</div>
+                <div class="met-val red-val" id="mInt">—</div>
+              </div>
+            </div>
+            <div class="metric-item green-item">
+              <span class="met-icon">✅</span>
+              <div class="met-body">
+                <div class="met-lbl" data-i18n="interestSaved">Interest Saved</div>
+                <div class="met-val green-val" id="mSaved">—</div>
+              </div>
+            </div>
+            <div class="metric-item green-item">
+              <span class="met-icon">⏳</span>
+              <div class="met-body">
+                <div class="met-lbl" data-i18n="timeSaved">Time Saved</div>
+                <div class="met-val green-val" id="mTime">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- YEARLY SCHEDULE SECTION -->
+    <section class="schedule-section" style="grid-column: 1 / -1;">
+      
+      <button class="btn-view-more" id="btnViewMore">
+        <span data-i18n="viewDetails">📅 View Detailed Breakdown</span>
+        <span class="arrow">▼</span>
+      </button>
+      
+      <!-- REMOVED THE "hidden" CLASS SO IT TOGGLES PROPERLY -->
+      <div class="schedule-content" id="scheduleContent" style="display:none;">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="card-title" data-i18n="yearlySchedule">Yearly Loan Schedule</h2>
+          </div>
+          <div class="tbl-wrap">
+            <table class="amort-tbl">
+              <thead>
+                <tr>
+                  <th data-i18n="year">Year</th>
+                  <th data-i18n="totalPaid">Total Paid</th>
+                  <th data-i18n="interestPaid">Interest Paid</th>
+                  <th data-i18n="principalPaid">Principal Paid</th>
+                  <th data-i18n="remainingLoan">Remaining Loan</th>
+                </tr>
+              </thead>
+              <tbody id="amortBody">
+                <tr><td colspan="5" class="tbl-empty">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span data-i18n="subamountAnalyzer">Subamount Analyzer</span>
+      <span data-i18n="footerNote">Calculations are indicative. Consult your lender for exact figures.</span>
+    </div>
+  </footer>
+
+  <script src="finance.js"></script>
+</body>
+</html>
